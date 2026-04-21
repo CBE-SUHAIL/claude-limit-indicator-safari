@@ -3,7 +3,7 @@
 A Safari extension for macOS that shows your Claude.ai usage limits 
 directly in the sidebar.
 
-![screenshots](screenshots/sidebar_on.png)
+
 ![screenshots](screenshots/token.png)
 
 ## Features
