@@ -1,0 +1,156 @@
+/* ── Claude Counter – Safari redesign ──────────────────────────────────────
+   Sidebar panel matching the screenshot design:
+   • "USAGE" heading
+   • Each row: label left / percentage+time right, full-width bar underneath
+   • Green → yellow → red colour ramp
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Header: tokens + cache timer (above chat input) */
+.cc-header {
+	margin-top: 2px;
+	user-select: none;
+}
+
+.cc-headerItem {
+	white-space: nowrap;
+}
+
+/* ── Usage panel ────────────────────────────────────────────────────────── */
+
+.cc-usageRow {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 8px 12px 10px;
+	user-select: none;
+	cursor: pointer;
+	transition: opacity 150ms ease;
+	position: relative;
+	z-index: 50;
+}
+
+.cc-usageRow--dim {
+	opacity: 0.5;
+}
+
+/* "USAGE" section heading */
+.cc-usageHeading {
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.35);
+	margin-bottom: 6px;
+}
+
+/* One metric block (session / weekly / tokens) */
+.cc-usageGroup {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.cc-usageGroup:last-child {
+	margin-bottom: 0;
+}
+
+/* Top line: label left, value+time right */
+.cc-usageLabelRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-bottom: 3px;
+}
+
+.cc-usageLabel {
+	font-size: 11px;
+	color: rgba(255,255,255,0.50);
+	white-space: nowrap;
+}
+
+/* Percentage + reset time — colour driven by JS */
+.cc-usageText {
+	font-size: 11px;
+	font-weight: 600;
+	white-space: nowrap;
+	color: #4ade80; /* default green; JS overrides to yellow/red */
+}
+
+/* ── Progress bars ──────────────────────────────────────────────────────── */
+
+.cc-bar {
+	--cc-radius: 3px;
+	--cc-fill:        #4ade80;              /* green  < 70 % */
+	--cc-fill-warn:   #facc15;              /* yellow 70–89 % */
+	--cc-fill-danger: #ef4444;              /* red    ≥ 90 % */
+	--cc-marker:      rgba(255,255,255,0.6);
+
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	height: 4px;
+	border-radius: var(--cc-radius);
+	background: rgba(255,255,255,0.10);
+	overflow: visible;
+	user-select: none;
+}
+
+.cc-bar__fill {
+	height: 100%;
+	width: 0%;
+	border-radius: var(--cc-radius);
+	background: var(--cc-fill);
+	transition: width 400ms ease, background-color 400ms ease;
+}
+
+.cc-bar__fill.cc-warn {
+	background: var(--cc-fill-warn);
+}
+
+.cc-bar__fill.cc-full {
+	background: var(--cc-fill-danger);
+}
+
+.cc-bar__marker {
+	position: absolute;
+	top: -2px;
+	bottom: -2px;
+	width: 2px;
+	border-radius: 1px;
+	background: var(--cc-marker);
+	pointer-events: none;
+}
+
+/* Mini bar inline with token count */
+.cc-bar--mini {
+	width: 60px;
+	height: 6px;
+	--cc-radius: 2px;
+}
+
+/* ── Tooltips ───────────────────────────────────────────────────────────── */
+
+.cc-tooltip {
+	position: fixed;
+	z-index: 9999;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	white-space: pre-line;
+	user-select: none;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 200ms ease;
+}
+
+.cc-tooltipTrigger {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: help;
+}
+
+.cc-hidden {
+	display: none !important;
+}
